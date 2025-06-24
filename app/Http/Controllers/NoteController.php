@@ -25,7 +25,8 @@ class NoteController
                 "Modifier" => NoteController::Maj($args, Auth::user()->getAuthIdentifier()),
                 "Supprimer" => NoteController::Supr($args, Auth::user()->getAuthIdentifier()),
                 "Unauthorized" => NoteController::getUserInfoForDelete(),
-                "Traite" => NoteController::traitementTexte($args["content"], $args["many"])
+                "Traite" => NoteController::traitementTexte($args["content"], $args["many"]),
+                "TraiteFin" => NoteController::traitementFinTexte($args)
             };
         }
 
@@ -113,6 +114,22 @@ class NoteController
             $content->content = [];
             foreach ($temp as $text) {
                 $content->content[] = empty($content->content) ? $text : "- " . $text;
+            }
+            $content = NoteController::controller("TraiteFin", $content);
+        }
+        return $content;
+    }
+
+    private static function traitementFinTexte(array|stdClass $content) {
+        if (!str_contains($content->content[count($content->content) - 1], "by")) {
+            if (!str_contains($content->content[count($content->content) - 1], "Redis")) {
+                $temp = preg_replace('/([a-z€$])\s+([A-Z][a-z])/', '$1' . "- " . '$2', $content->content[count($content->content) - 1]);
+                $ArrayTemp = explode("- ", $temp);
+                $content->content[count($content->content) - 1] = "- " . $ArrayTemp[1];
+                array_splice($ArrayTemp, 1, 1);
+                foreach ($ArrayTemp as $Temp) {
+                    $content->content[] = $Temp;
+                }
             }
         }
         return $content;

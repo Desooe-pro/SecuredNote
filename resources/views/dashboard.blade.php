@@ -13,7 +13,7 @@
                         <h3 class="text-2xl">{{ $note->title }}</h3>
                         <div class="bg-zinc-500 flex flex-wrap justify-start w-full p-6">
                             @foreach( $note->content as $content )
-                                <p class="text-gray-300">{{ $content }}</p>
+                                <p class="text-gray-300 block w-full">{{ $content }}</p>
                             @endforeach
                         </div>
                     </div>

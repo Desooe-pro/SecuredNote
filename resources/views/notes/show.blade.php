@@ -19,13 +19,11 @@
 
     <div class="flex mt-4 flex-wrap gap-8 justify-evenly justify-self-center">
         @if( !empty($retour) )
-            <a href="/notes/{{ $retour->id }}">
-                <div class="flex w-96 h-fit bg-zinc-700 p-6 flex-col justify-between rounded-3xl text-zinc-300 shadow-zinc-800 shadow-xl">
-                    @foreach( $retour->content as $content )
-                        <h3 class="text-2xl">{{ $content }}</h3>
-                    @endforeach
-                </div>
-            </a>
+            <div class="flex w-96 h-fit bg-zinc-700 p-6 flex-col justify-between rounded-3xl text-zinc-300 shadow-zinc-800 shadow-xl">
+                @foreach( $retour->content as $content )
+                    <h3 class="text-2xl">{{ $content }}</h3>
+                @endforeach
+            </div>
         @endif
         @if( !empty($message) )
             <h2 class="text-2xl text-gray-300">{{ $message }}</h2>
