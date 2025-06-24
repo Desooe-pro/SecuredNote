@@ -13,6 +13,7 @@ Route::get('/dashboard', function () {
     $notes = NoteController::controller("Dashboard");
     $message = $notes["message"] ?? "";
     $retour = $notes["retour"] ?? [];
+    $retour = empty($retour) ? $retour : NoteController::controller("Traite", ["content" => $retour, "many" => true]);
     return view('dashboard', compact("message", "retour"));
 })->middleware(['auth', 'verified'])->name('dashboard');
 
@@ -20,6 +21,7 @@ Route::get("/notes", function () {
     $notes = NoteController::controller("Notes");
     $message = $notes["message"] ?? "";
     $retour = $notes["retour"] ?? [];
+    $retour = empty($retour) ? $retour : NoteController::controller("Traite", ["content" => $retour, "many" => true]);
     return view('notes.index', compact("message", "retour"));
 })->middleware(['auth', 'verified'])->name('notes');
 
@@ -34,6 +36,7 @@ Route::get("/notes/{id}", function (int $id) {
     $notes = NoteController::controller("Note", $id);
     $message = $notes["message"] ?? "";
     $retour = $notes["retour"][0] ?? [];
+    $retour = empty($retour) ? $retour : NoteController::controller("Traite", ["content" => $retour, "many" => false]);
     return view('notes.show', compact("message", "retour", "back"));
 })->middleware(['auth', 'verified'])->name('notes.show');
 
@@ -69,7 +72,9 @@ Route::get("/edit/{id}", function (int $id) {
 
 Route::post("/notes/edit", function (Request $request) {
     $retour = NoteController::controller("Modifier", $request);
-    return redirect("/notes/" . $retour["id"])->with($retour["message"]);
+    return isset($retour["id"])
+        ? redirect("/notes/" . $retour["id"])->with($retour["message"])
+        : redirect()->route("notes")->with($retour["message"]);
 })->middleware(['auth', 'verified'])->name('notes.edit');
 
 Route::get("/unauthorized/delete", function () {

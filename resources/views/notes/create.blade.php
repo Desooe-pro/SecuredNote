@@ -19,13 +19,17 @@
             <div class="flex w-full justify-center flex-wrap mb-8">
                 <div class="flex w-8/12 justify-center flex-wrap">
                     <label class="text-2xl  dark:text-gray-200">Titre</label>
-                    <input type="text" class="dark:text-gray-200 w-full rounded-2xl dark:bg-gray-700 border-2 border-t-gray-100 border-l-gray-100 border-b-zinc-400 border-r-zinc-400 px-6" name="title" required>
+                    <input type="text" class="dark:text-gray-200 w-full rounded-2xl dark:bg-gray-700 border-2 border-t-gray-100 border-l-gray-100 border-b-zinc-400 border-r-zinc-400 px-6"
+                           name="title" placeholder="Liste de course" required
+                    >
                 </div>
             </div>
             <div class="flex w-full justify-center flex-wrap mb-8">
                 <div class="flex w-8/12 justify-center flex-wrap">
                     <label class="text-2xl dark:text-gray-200" >Contenu</label>
-                    <input type="text" class="dark:text-gray-200 w-full rounded-2xl dark:bg-gray-700 border-2 border-t-gray-100 border-l-gray-100 border-b-zinc-400 border-r-zinc-400 px-6" name="content" required>
+                    <input type="text" class="dark:text-gray-200 w-full rounded-2xl dark:bg-gray-700 border-2 border-t-gray-100 border-l-gray-100 border-b-zinc-400 border-r-zinc-400 px-6"
+                           name="content" placeholder="A prendre : - Farine - Lait - Glace" required
+                    >
                 </div>
             </div>
             <div class="flex w-full justify-center flex-wrap mb-8" style="display: none">

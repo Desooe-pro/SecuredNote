@@ -21,7 +21,9 @@
         @if( !empty($retour) )
             <a href="/notes/{{ $retour->id }}">
                 <div class="flex w-96 h-fit bg-zinc-700 p-6 flex-col justify-between rounded-3xl text-zinc-300 shadow-zinc-800 shadow-xl">
-                    <h3 class="text-2xl">{{ $retour->content }}</h3>
+                    @foreach( $retour->content as $content )
+                        <h3 class="text-2xl">{{ $content }}</h3>
+                    @endforeach
                 </div>
             </a>
         @endif

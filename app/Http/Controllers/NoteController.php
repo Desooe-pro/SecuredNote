@@ -7,6 +7,7 @@ use App\Models\Note;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use stdClass;
 
 class NoteController
 {
@@ -23,7 +24,8 @@ class NoteController
                 "Note" => NoteController::getById($args, Auth::user()->getAuthIdentifier()),
                 "Modifier" => NoteController::Maj($args, Auth::user()->getAuthIdentifier()),
                 "Supprimer" => NoteController::Supr($args, Auth::user()->getAuthIdentifier()),
-                "Unauthorized" => NoteController::getUserInfoForDelete()
+                "Unauthorized" => NoteController::getUserInfoForDelete(),
+                "Traite" => NoteController::traitementTexte($args["content"], $args["many"])
             };
         }
 
@@ -43,8 +45,6 @@ class NoteController
     private static function getById(int $idNote, int $userId){
         return Note::getById($idNote, $userId);
     }
-
-    private static function getSorted(string $type, string $order){}
 
     private static function Add(Request $request, int $id){
         $validated = $request->validate([
@@ -79,7 +79,7 @@ class NoteController
         if (count($recup) === 1) {
             return Note::Maj($validated, $userId);
         } else {
-            return ["Route" => $validated["back"], "message" => "Vous n'avez pas le droit de modifier cette note"];
+            return ["message" => "Vous n'avez pas le droit de modifier cette note"];
         }
     }
 
@@ -103,5 +103,18 @@ class NoteController
         }
     }
 
-    private static function getFiltered(string $filtre){}
+    private static function traitementTexte(array|stdClass $content, bool $many){
+        if ($many) {
+            foreach ($content as $contenu) {
+                $contenu = NoteController::controller("Traite", ["content" => $contenu, "many" => false]);
+            }
+        } else {
+            $temp = explode("- ", $content->content);
+            $content->content = [];
+            foreach ($temp as $text) {
+                $content->content[] = empty($content->content) ? $text : "- " . $text;
+            }
+        }
+        return $content;
+    }
 }

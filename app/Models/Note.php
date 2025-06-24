@@ -53,8 +53,6 @@ class Note extends Model
             : ["retour" => $retour];
     }
 
-    public static function getSorted(string $type, string $order){}
-
     public static function Maj(array $validated, int $userId) {
         DB::table("notes")
             ->where("id", $validated["id"])
@@ -75,6 +73,4 @@ class Note extends Model
 
         return ["message" => "Suppression réussi"];
     }
-
-    public static function getFiltered(string $filtre){}
 }
