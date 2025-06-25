@@ -19,6 +19,7 @@ class NoteController
         } else {
             $retour = match ($func) {
                 "Dashboard" => NoteController::getForDashboard(Auth::user()->getAuthIdentifier()),
+                "Public" => NoteController::getPublicNotes(),
                 "Notes" => NoteController::getAllNotes(Auth::user()->getAuthIdentifier()),
                 "Ajouter" => NoteController::Add($args, Auth::user()->getAuthIdentifier()),
                 "Note" => NoteController::getById($args, Auth::user()->getAuthIdentifier()),
@@ -33,6 +34,10 @@ class NoteController
         }
 
         return $retour;
+    }
+
+    private static function getPublicNotes(){
+        return Note::getPublicNotes();
     }
 
     private static function getAllNotes(int $id)
@@ -127,10 +132,14 @@ class NoteController
     {
         foreach ($content->content as $key => &$contenu) {
             if (str_contains($contenu, ":") && !str_contains($contenu, "€")) {
-                if ((isset($content->content[$key - 1]) || substr_count($contenu, ":") > 1) && isset($content->content[$key + 1]) && (str_contains($content->content[$key + 1], ":") || str_contains($content->content[$key + 1], "-"))) {
+                $sum = substr_count($contenu, ":") + substr_count($contenu, "!") + substr_count($contenu, "?") + substr_count($contenu, ".");
+                if ((isset($content->content[$key - 1]) || $sum > 1) && isset($content->content[$key + 1]) && (str_contains($content->content[$key + 1], ":") || str_contains($content->content[$key + 1], "-"))) {
                     $temp = str_replace(':', ':|', $contenu);
                     $temp = str_replace(')', ')|', $temp);
-                    $temp = preg_replace('/([a-z):])\s+([A-Z][a-zéè]+\s+:)/', '$1' . "|" . '$2', $temp);
+                    $temp = str_replace('!', '!|', $temp);
+                    $temp = str_replace('?', '?|', $temp);
+                    $temp = str_replace('.', '.|', $temp);
+                    $temp = preg_replace('/([a-z):])\s+([A-Z][a-zéè\s]+\s+:)/', '$1' . "|" . '$2', $temp);
                     $contenu = explode("|", $temp);
                 }
             }

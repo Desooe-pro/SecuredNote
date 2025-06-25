@@ -11,10 +11,14 @@ Route::get('/', function () {
 
 Route::get('/dashboard', function () {
     $notes = NoteController::controller("Dashboard");
+    $public = NoteController::controller("Public");
     $message = $notes["message"] ?? "";
     $retour = $notes["retour"] ?? [];
+    $PMessage = $public["message"] ?? "";
+    $PRetour = $public["retour"] ?? [];
     $retour = empty($retour) ? $retour : NoteController::controller("Traite", ["content" => $retour, "many" => true]);
-    return view('dashboard', compact("message", "retour"));
+    $PRetour = empty($PRetour) ? $PRetour : NoteController::controller("Traite", ["content" => $PRetour, "many" => true]);
+    return view('dashboard', compact("message", "retour", "PRetour", "PMessage"));
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::get("/notes", function () {

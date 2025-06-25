@@ -27,7 +27,9 @@
         @if( !empty($retour) )
             <div class="flex min-w-96 w-fit h-fit bg-zinc-700 p-6 flex-col justify-between rounded-3xl text-zinc-300 shadow-zinc-800 shadow-xl">
                 @foreach( $retour->content as $content )
-                    <h3 class="text-2xl">{{ $content }}</h3>
+                    @if( !empty($content) )
+                        <h3 class="text-2xl">{{ $content }}</h3>
+                    @endif
                 @endforeach
             </div>
         @endif

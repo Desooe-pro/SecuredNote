@@ -25,7 +25,9 @@
                         <h3 class="text-2xl">{{ $note->title }}</h3>
                         <div class="bg-zinc-500 flex flex-col flex-wrap justify-start w-full p-6">
                             @foreach( $note->content as $content )
-                                <p class="text-gray-300 block">{{ $content }}</p>
+                                @if( !empty($content) )
+                                    <p class="text-gray-300 block w-full">{{ $content }}</p>
+                                @endif
                             @endforeach
                         </div>
                     </div>

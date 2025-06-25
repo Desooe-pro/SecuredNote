@@ -5,25 +5,27 @@
         </h2>
     </x-slot>
 
-    <div class="flex mt-4 flex-wrap gap-8 justify-evenly justify-self-center">
-        @if( !empty($retour) )
-            @foreach( $retour as $note )
-                <a href="/notes/{{ $note->id }}">
-                    <div class="flex w-96 h-fit bg-zinc-700 p-6 flex-col justify-between rounded-3xl text-zinc-300 shadow-zinc-800 shadow-xl">
-                        <h3 class="text-2xl">{{ $note->title }}</h3>
-                        <div class="bg-zinc-500 flex flex-wrap justify-start w-full p-6">
-                            @foreach( $note->content as $content )
+    <div class="flex mt-4 flex-nowrap gap-8 justify-evenly justify-self-center">
+        @if( !empty($PRetour) )
+            @foreach( $PRetour as $note )
+                <div class="flex min-w-96 w-fit max-w-[40%] h-fit bg-zinc-700 p-6 flex-col justify-between rounded-3xl text-zinc-300 shadow-zinc-800 shadow-xl">
+                    <h3 class="text-2xl">{{ $note->title }}</h3>
+                    <div class="bg-zinc-500 flex flex-wrap justify-start w-fit p-6">
+                        @foreach( $note->content as $content )
+                            @if( !empty($content) && $content !== " " )
                                 <p class="text-gray-300 block w-full">{{ $content }}</p>
-                            @endforeach
-                        </div>
+                            @endif
+                        @endforeach
                     </div>
-                </a>
+                </div>
             @endforeach
         @else
             <h2 class="text-2xl text-gray-300">{{ $message }}</h2>
         @endif
     </div>
-    <div class="flex mt-4 flex-wrap gap-8 justify-evenly justify-self-center">
+
+    <div class="flex mt-8 flex-wrap gap-8 justify-evenly justify-self-center">
+        <h2 class="text-3xl text-zinc-300">Notes privées</h2>
         <a href="/ajouter/notes">
             <button class="dark:bg-gray-800 dark:text-gray-200 dark:shadow-gray-50 dark:shadow-sm p-3 rounded-3xl">
                 Créer une note
@@ -35,6 +37,26 @@
                     Voir tout
                 </button>
             </a>
+        @endif
+    </div>
+    <div class="flex mt-4 flex-wrap gap-8 justify-evenly justify-self-center">
+        @if( !empty($retour) )
+            @foreach( $retour as $note )
+                <a href="/notes/{{ $note->id }}">
+                    <div class="flex w-96 h-fit bg-zinc-700 p-6 flex-col justify-between rounded-3xl text-zinc-300 shadow-zinc-800 shadow-xl">
+                        <h3 class="text-2xl">{{ $note->title }}</h3>
+                        <div class="bg-zinc-500 flex flex-wrap justify-start w-full p-6">
+                            @foreach( $note->content as $content )
+                                @if( !empty($content) )
+                                    <p class="text-gray-300 block w-full">{{ $content }}</p>
+                                @endif
+                            @endforeach
+                        </div>
+                    </div>
+                </a>
+            @endforeach
+        @else
+            <h2 class="text-2xl text-gray-300">{{ $message }}</h2>
         @endif
     </div>
 

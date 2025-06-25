@@ -15,6 +15,19 @@ class Note extends Model
         'content'
     ];
 
+    public static function getPublicNotes(): array
+    {
+        $notes = DB::table("notes")
+            ->where("userId", "=", 0)
+            ->limit(3)
+            ->get();
+        $retour = $notes->toArray();
+
+        return empty($retour)
+            ? $res = ["message" => "Vous n'avez aucune note"]
+            : $res = ["retour" => $retour];
+    }
+
     public static function getForDashboard(int $id): array
     {
         $notes = DB::table("notes")
@@ -53,7 +66,8 @@ class Note extends Model
             : ["retour" => $retour];
     }
 
-    public static function Maj(array $validated, int $userId) {
+    public static function Maj(array $validated, int $userId): array
+    {
         DB::table("notes")
             ->where("id", $validated["id"])
             ->where("userId", $userId)
@@ -65,7 +79,8 @@ class Note extends Model
         return ["id" => $validated["id"], "message" => "Note modifiée avec succès"];
     }
 
-    public static function Supr(int $id, int $userId){
+    public static function Supr(int $id, int $userId): array
+    {
         DB::table("notes")
             ->where("id", $id)
             ->where("userId", $userId)
