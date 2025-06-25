@@ -127,7 +127,7 @@ class NoteController
     {
         foreach ($content->content as $key => &$contenu) {
             if (str_contains($contenu, ":") && !str_contains($contenu, "€")) {
-                if (isset($content->content[$key - 1]) && isset($content->content[$key + 1]) && (str_contains($content->content[$key + 1], ":") || str_contains($content->content[$key + 1], "-"))) {
+                if ((isset($content->content[$key - 1]) || substr_count($contenu, ":") > 1) && isset($content->content[$key + 1]) && (str_contains($content->content[$key + 1], ":") || str_contains($content->content[$key + 1], "-"))) {
                     $temp = str_replace(':', ':|', $contenu);
                     $temp = str_replace(')', ')|', $temp);
                     $temp = preg_replace('/([a-z):])\s+([A-Z][a-zéè]+\s+:)/', '$1' . "|" . '$2', $temp);
