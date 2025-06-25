@@ -45,7 +45,7 @@
                 <div class="flex w-full justify-center flex-wrap">
                     <div class="w-[150px] h-[50px]">
                         <button type="submit" class="flex w-[150px] h-[50px] justify-center flex-col text-center text-2xl dark:bg-gray-800 dark:text-gray-200 dark:shadow-gray-50 dark:shadow-sm p-3 rounded-3xl">
-                            Ajouter
+                            Modifier
                         </button>
                     </div>
                 </div>
