@@ -10,7 +10,13 @@
     </x-slot>
 
     <div class="flex pl-64 mt-4 flex-wrap justify-evenly justify-self-start w-[150px] h-[50px]">
-        <a href="{{ $back }}">
+        <a
+            @if( !empty($retour) )
+                href="{{ $back . "/#" . $retour->id }}"
+            @else
+                href="{{ $back }}"
+            @endif
+        >
             <button class="text-2xl w-[150px] h-[50px] dark:bg-gray-800 dark:text-gray-200 dark:shadow-gray-50 dark:shadow-sm rounded-3xl">
                 Retour
             </button>
@@ -19,7 +25,7 @@
 
     <div class="flex mt-4 flex-wrap gap-8 justify-evenly justify-self-center">
         @if( !empty($retour) )
-            <div class="flex w-96 h-fit bg-zinc-700 p-6 flex-col justify-between rounded-3xl text-zinc-300 shadow-zinc-800 shadow-xl">
+            <div class="flex min-w-96 w-fit h-fit bg-zinc-700 p-6 flex-col justify-between rounded-3xl text-zinc-300 shadow-zinc-800 shadow-xl">
                 @foreach( $retour->content as $content )
                     <h3 class="text-2xl">{{ $content }}</h3>
                 @endforeach
